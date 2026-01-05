@@ -3,17 +3,19 @@ import { Button } from "@/components/ui/button";
 
 // Simulate fetching community data from a database
 async function getCommunityData(slug: string) {
-  // In a real app, this would be: await db.query(...)
+  // In production: add try/catch for database errors
   // For now, simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const generatedAt = new Date().toISOString();
 
+  // Show ISR cache behavior with slight variations
+  // These numbers change on each regeneration to demonstrate ISR
   return {
     name: slug,
     description: `Welcome to the ${slug} community`,
-    memberCount: 5247,
-    postCount: 432,
+    memberCount: 5247 + Math.floor(Math.random() * 10),
+    postCount: 432 + Math.floor(Math.random() * 5),
     generatedAt,
   };
 }

@@ -6,7 +6,7 @@ export default async function DashboardPage() {
   const cookieStore = await cookies();
   const requestTime = new Date().toISOString();
 
-  // Simulate fetching user-specific data
+  // Demo only - in production, validate and sanitize user data from cookies
   const userId = cookieStore.get("userId")?.value || "guest";
 
   return (
