@@ -7,11 +7,14 @@ async function getCommunityData(slug: string) {
   // For now, simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 500));
 
+  const generatedAt = new Date().toISOString();
+
   return {
     name: slug,
     description: `Welcome to the ${slug} community`,
-    memberCount: Math.floor(Math.random() * 10000),
-    postCount: Math.floor(Math.random() * 1000),
+    memberCount: 5247,
+    postCount: 432,
+    generatedAt,
   };
 }
 
@@ -42,6 +45,9 @@ export default async function CommunityPage({
           <span>•</span>
           <span>{community.postCount} posts</span>
         </div>
+        <p className="mt-2 text-xs text-zinc-400">
+          Data cached at: {community.generatedAt}
+        </p>
         <Button className="mt-4" size="sm">
           Join Community
         </Button>
@@ -72,3 +78,7 @@ export default async function CommunityPage({
     </div>
   );
 }
+
+// ISR: Revalidate community data every 30 seconds
+// This means the page is static but refreshes after 30s
+export const revalidate = 30;
