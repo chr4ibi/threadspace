@@ -2,3 +2,8 @@
 [2026-01-05 23:09:18] git add . && git commit -m \
 [2026-01-05 23:27:38] npm run build 2>&1 | tail -20
 [2026-01-05 23:28:09] git add -A && git commit -m \
+[2026-01-05 23:28:25] gh pr merge 2 --squash --delete-branch
+[2026-01-05 23:28:42] gh pr status
+[2026-01-05 23:29:01] gh pr merge 3 --squash --delete-branch
+[2026-01-05 23:29:11] git fetch origin develop && git merge origin/develop
+[2026-01-05 23:29:23] git add .claude/command-history.log && git commit -m \
