@@ -1,0 +1,62 @@
+# ThreadSpace - Claude Code Project Rules
+
+## Project Overview
+ThreadSpace is a community discussion platform (Reddit meets Discord) built with Next.js 14+ to demonstrate modern full-stack patterns.
+
+## Tech Stack
+- **Framework:** Next.js 14+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **UI Components:** shadcn/ui (new-york style)
+- **Import Alias:** @/*
+
+## Code Conventions
+
+### Git Workflow
+- **Main branch:** `develop` (not main)
+- **Feature branches:** `feature/feature-name`
+- **Commit messages:** Use conventional commits (feat:, fix:, chore:, refactor:, etc.)
+
+### File Organization
+```
+src/
+├── app/              # Next.js App Router
+│   ├── (marketing)/ # Public pages (landing, about, blog)
+│   └── (app)/       # Protected app pages (feed, communities)
+├── components/      # Shared components
+│   └── ui/         # shadcn/ui components
+└── lib/            # Utilities and helpers
+```
+
+### Rendering Strategies
+- **Static (SSG):** Marketing pages, documentation
+- **ISR:** Community pages, blog posts (with revalidation)
+- **SSR:** User dashboards, personalized content
+
+### Component Guidelines
+- Prefer Server Components by default
+- Only use "use client" when needed (interactivity, hooks, browser APIs)
+- Extract reusable UI into components
+- Add aria-hidden to decorative SVGs
+
+## Development Commands
+```bash
+npm run dev        # Start dev server
+npm run build      # Production build
+npm run lint       # Run ESLint
+```
+
+## Module Progress
+- ✅ Module 1: Foundation & Setup
+- ✅ Module 2.1: App Router Deep Dive
+- ✅ Module 2.2: Server vs Client Components
+- ✅ Module 2.3: Rendering Strategies
+- ✅ Module 2.4: Building the Home Page
+- ⏳ Module 3: Database & Data Layer (pending)
+- ⏳ Module 4: Authentication & Security (pending)
+
+## Notes for AI Assistants
+- This is an educational project focused on learning
+- Code quality and best practices are prioritized
+- Comments should explain "why" not "what"
+- Demo code should be clearly marked as such

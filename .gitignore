@@ -40,5 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# claude code - only ignore session/history files
+# claude code - ignore session/history files and local settings
 .claude/command-history.log
+.claude/settings.local.json
+.claude/*.log
