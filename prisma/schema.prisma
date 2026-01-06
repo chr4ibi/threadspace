@@ -1,0 +1,135 @@
+// ThreadSpace Database Schema
+// PostgreSQL + Prisma ORM
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User model - Platform users
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts              Post[]
+  comments           Comment[]
+  votes              Vote[]
+  communities        CommunityMember[]
+  createdCommunities Community[]       @relation("CommunityCreator")
+
+  @@index([email])
+  @@index([username])
+}
+
+// Community model - Like subreddits
+model Community {
+  id          String   @id @default(cuid())
+  name        String   @unique // URL-friendly slug (e.g., "nextjs")
+  displayName String // Display name (e.g., "Next.js")
+  description String?
+  image       String?
+  creatorId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  creator User              @relation("CommunityCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  posts   Post[]
+  members CommunityMember[]
+
+  @@index([name])
+  @@index([creatorId])
+}
+
+// CommunityMember - Join table for users in communities
+model CommunityMember {
+  id          String   @id @default(cuid())
+  userId      String
+  communityId String
+  role        String   @default("member") // "member", "moderator", "admin"
+  joinedAt    DateTime @default(now())
+
+  // Relations
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, communityId])
+  @@index([userId])
+  @@index([communityId])
+}
+
+// Post model - Posts in communities
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  content     String?  @db.Text
+  communityId String
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  votes     Vote[]
+
+  @@index([communityId])
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+// Comment model - Comments on posts (supports nested replies)
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  postId    String
+  authorId  String
+  parentId  String? // For nested replies
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  post    Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+  votes   Vote[]
+
+  @@index([postId])
+  @@index([authorId])
+  @@index([parentId])
+  @@index([createdAt])
+}
+
+// Vote model - Upvotes/downvotes on posts and comments
+model Vote {
+  id        String   @id @default(cuid())
+  type      String // "upvote" or "downvote"
+  userId    String
+  postId    String?
+  commentId String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  // User can only vote once per post/comment
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+  @@index([userId])
+  @@index([postId])
+  @@index([commentId])
+}
