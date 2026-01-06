@@ -6,6 +6,9 @@ ThreadSpace is a community discussion platform (Reddit meets Discord) built with
 ## Tech Stack
 - **Framework:** Next.js 14+ (App Router)
 - **Language:** TypeScript
+- **Database:** PostgreSQL (Neon serverless)
+- **ORM:** Prisma 7 with Neon adapter
+- **Package Manager:** Bun
 - **Styling:** Tailwind CSS v4
 - **UI Components:** shadcn/ui (new-york style)
 - **Import Alias:** @/*
@@ -41,9 +44,16 @@ src/
 
 ## Development Commands
 ```bash
-npm run dev        # Start dev server
-npm run build      # Production build
-npm run lint       # Run ESLint
+bun run dev        # Start dev server
+bun run build      # Production build
+bun run lint       # Run ESLint
+
+# Database commands
+bunx prisma migrate dev --name xyz  # Create & apply migration
+bunx prisma migrate deploy          # Apply migrations (production)
+bunx prisma db seed                 # Seed database with test data
+bunx prisma generate                # Regenerate Prisma Client
+bunx prisma studio                  # Open Prisma Studio GUI
 ```
 
 ## Module Progress
@@ -52,8 +62,11 @@ npm run lint       # Run ESLint
 - ✅ Module 2.2: Server vs Client Components
 - ✅ Module 2.3: Rendering Strategies
 - ✅ Module 2.4: Building the Home Page
-- ⏳ Module 3: Database & Data Layer (pending)
-- ⏳ Module 4: Authentication & Security (pending)
+- ✅ Module 3: Database & Data Layer (Prisma + Neon + Bun migration)
+- ✅ Module 4.1: NextAuth.js Setup
+- ✅ Module 4.2: Signup & Login Flows
+- ✅ Module 4.3: Protected Routes & Authorization
+- ⏳ Module 5: Data Integration & API Routes (pending)
 
 ## Notes for AI Assistants
 - This is an educational project focused on learning
