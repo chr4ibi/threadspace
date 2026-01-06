@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { auth } from "@/auth";
 import { UserButton } from "@/components/user-button";
 
 export async function Navigation() {
+  const session = await auth();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/80">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -29,6 +32,14 @@ export async function Navigation() {
           >
             Communities
           </Link>
+          {session?.user && (
+            <Link
+              href="/dashboard"
+              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >
+              Dashboard
+            </Link>
+          )}
           <Link
             href="/about"
             className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
