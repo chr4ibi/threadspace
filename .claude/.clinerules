@@ -63,7 +63,9 @@ bunx prisma studio                  # Open Prisma Studio GUI
 - ✅ Module 2.3: Rendering Strategies
 - ✅ Module 2.4: Building the Home Page
 - ✅ Module 3: Database & Data Layer (Prisma + Neon + Bun migration)
-- ⏳ Module 4: Authentication & Security (in progress)
+- ✅ Module 4.1: NextAuth.js Setup
+- ✅ Module 4.2: Signup & Login Flows
+- ✅ Module 4.3: Protected Routes & Authorization
 - ⏳ Module 5: Data Integration & API Routes (pending)
 
 ## Notes for AI Assistants
