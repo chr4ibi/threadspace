@@ -10,6 +10,18 @@ datasource db {
   provider = "postgresql"
 }
 
+// Enums
+enum VoteType {
+  upvote
+  downvote
+}
+
+enum CommunityRole {
+  member
+  moderator
+  admin
+}
+
 // User model - Platform users
 model User {
   id        String   @id @default(cuid())
@@ -53,11 +65,11 @@ model Community {
 
 // CommunityMember - Join table for users in communities
 model CommunityMember {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   userId      String
   communityId String
-  role        String   @default("member") // "member", "moderator", "admin"
-  joinedAt    DateTime @default(now())
+  role        CommunityRole @default(member)
+  joinedAt    DateTime      @default(now())
 
   // Relations
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -115,7 +127,7 @@ model Comment {
 // Vote model - Upvotes/downvotes on posts and comments
 model Vote {
   id        String   @id @default(cuid())
-  type      String // "upvote" or "downvote"
+  type      VoteType
   userId    String
   postId    String?
   commentId String?

@@ -2,7 +2,12 @@ import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
 // Create Neon adapter
-const connectionString = process.env.DATABASE_URL!;
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error(
+    "DATABASE_URL environment variable is not set. Please check your .env file.",
+  );
+}
 const adapter = new PrismaNeon({ connectionString });
 
 // Prevent multiple instances of Prisma Client in development
